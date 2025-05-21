@@ -1,14 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil Page</title>
-</head>
-<body>
-    <h1>Perfil do usuário {{usuario}}</h1>
+{% extends "homepage.html" %}
 
-    <a href="{{ url_for('homepage') }}">Sair</a>
+{% block titulo %}
+Perfil - {{ usuario }}
+{% endblock %}
+
+{%block body%}
+<body>
+    
+<h1>Perfil do usuário: {{usuario}}</h1>
+
+<a href="{{ url_for('homepage') }}">Sair</a>
 
 </body>
-</html>
+{% endblock %}
