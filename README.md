@@ -15,3 +15,10 @@ python -m venv venv
 ```
 pip install flask
 ```
+
+## Rodar banco de dados
+
+```
+pip install flask-sqlalchemy
+```
+
