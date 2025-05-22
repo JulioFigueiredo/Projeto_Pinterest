@@ -22,3 +22,8 @@ pip install flask
 pip install flask-sqlalchemy
 ```
 
+## Instalar FlaskLogin e bcrypt
+
+```
+pip install flask-login flask-bcrypt
+```
