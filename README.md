@@ -27,3 +27,15 @@ pip install flask-sqlalchemy
 ```
 pip install flask-login flask-bcrypt
 ```
+
+## Instalar flask-wtf para formulários
+
+```
+pip install flask-wtf
+```
+
+## Instalar Validação de email
+
+```
+pip install email_validator
+```
