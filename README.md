@@ -1,6 +1,6 @@
 ## Para rodar o projeto
 
-### Ambiente Virtual
+## Ambiente Virtual
 
 ```
 python -m venv venv
@@ -10,10 +10,16 @@ python -m venv venv
 .\venv\Scripts\activate
 ```
 
-### Instalar Flask
+## Instalar Flask
 
 ```
 pip install flask
+```
+
+## Rodar projeto
+
+```
+python main.py
 ```
 
 ## Rodar banco de dados
