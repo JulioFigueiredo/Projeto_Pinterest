@@ -13,7 +13,7 @@ def homepage():
         usuario = Usuario.query.filter_by(email=formLogin.email.data).first() # procura o usuário por email
         if usuario and bcrypt.check_password_hash(usuario.senha, formLogin.senha.data): # verifica se existe o usuario e a senha corresponde a senha criptografada
             login_user(usuario)
-            return redirect(url_for("perfil", usuario=usuario.username))
+            return redirect(url_for("perfil", id_usuario=usuario.id))
     return render_template("homepage.html", form=formLogin)
 
 @app.route("/criarconta", methods=["GET","POST"])
@@ -25,14 +25,19 @@ def criarconta():
         database.session.add(usuario) # adiciona o usuário no db
         database.session.commit()
         login_user(usuario, remember=True)
-        return redirect(url_for("perfil", usuario=usuario.username)) # redireciona para a função perfil a partir do username
+        return redirect(url_for("perfil", id_usuario=usuario.id)) # redireciona para a função perfil a partir do username
     return render_template("criarconta.html", form=form_criarconta)
 
 
-@app.route("/perfil/<usuario>") # <> mostra que é uma variável
+@app.route("/perfil/<id_usuario>") # <> mostra que é uma variável
 @login_required
-def perfil(usuario): # variável é passada como parâmetro
-    return render_template("perfil.html", usuario=usuario)
+def perfil(id_usuario): # variável é passada como parâmetro
+    if int(id_usuario) == int(current_user.id):
+        # usuário está vendo o próprio perfil
+        return render_template("perfil.html", usuario=current_user)
+    else:    
+        usuario = Usuario.query.get(int(id_usuario))
+        return render_template("perfil.html", usuario=usuario)
 
 @app.route("/logout")
 @login_required
