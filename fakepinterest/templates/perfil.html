@@ -6,6 +6,7 @@ Perfil - {{ usuario }}
 
 {%block body%}
 <body>
+{% include "navbar.html" %} <!-- includes serve pra trazer um elemento-->
 
 <h1>Perfil do usuário: {{usuario.username}}</h1>
 
