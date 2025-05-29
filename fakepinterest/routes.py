@@ -3,8 +3,10 @@ from fakepinterest.models import Usuario
 from fakepinterest import app, database, bcrypt
 # url_for permite acessar o endpoint pelo nome da função
 from flask_login import login_required, login_user, logout_user, current_user
-from fakepinterest.forms import FormLogin, FormCriarConta
+from fakepinterest.forms import FormLogin, FormCriarConta, FormFoto
 from fakepinterest.models import Usuario, Foto
+import os
+from werkzeug.utils import secure_filename 
 
 @app.route("/", methods=["GET", "POST"]) # caminho com link do site
 def homepage():
@@ -29,15 +31,28 @@ def criarconta():
     return render_template("criarconta.html", form=form_criarconta)
 
 
-@app.route("/perfil/<id_usuario>") # <> mostra que é uma variável
+@app.route("/perfil/<id_usuario>", methods=["GET", "POST"]) # <> mostra que é uma variável
 @login_required
 def perfil(id_usuario): # variável é passada como parâmetro
     if int(id_usuario) == int(current_user.id):
         # usuário está vendo o próprio perfil
-        return render_template("perfil.html", usuario=current_user)
+        form_foto= FormFoto()
+        if form_foto.validate_on_submit():
+            arquivo = form_foto.foto.data
+            nome_seguro = secure_filename(arquivo.filename)
+            # os.join junta arquivos
+            # salva o arquivo em fotos_posts
+            caminho = os.path.join(os.path.abspath(os.path.dirname(__file__)), # pega o arquivo atual (routes.py)
+            app.config["UPLOAD_FOLDER"], nome_seguro)
+            arquivo.save(caminho)
+            # Salvar no banco
+            foto = Foto(imagem=nome_seguro, id_usuario=current_user.id)
+            database.session.add(foto)
+            database.session.commit()
+        return render_template("perfil.html", usuario=current_user, form=form_foto)
     else:    
         usuario = Usuario.query.get(int(id_usuario))
-        return render_template("perfil.html", usuario=usuario)
+        return render_template("perfil.html", usuario=usuario, form=None) # se estiver vendo perfil de outra pessoa, não é possível enviar foto
 
 @app.route("/logout")
 @login_required
