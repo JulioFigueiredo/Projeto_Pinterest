@@ -31,6 +31,8 @@ Durante esse projeto, aprimorei minhas habilidades com Flask, especialmente em:
 ```bash
 git clone https://github.com/JulioFigueiredo/Projeto_Pinterest.git
 cd Projeto_Pinterest
+python -m venv venv
+venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
 ```
